@@ -42,6 +42,14 @@
    name = "go.opencensus.io"
    version = ">=0.22.3"
 
+[[constraint]]
+  name = "github.com/dapr/go-sdk"
+  version = "v0.10.0"
+
 [prune]
   go-tests = true
   unused-packages = true
+
+[[constraint]]
+  name = "google.golang.org/api"
+  version = "0.26.0"

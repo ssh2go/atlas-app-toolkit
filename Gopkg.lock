@@ -33,6 +33,17 @@
   version = "v0.2.1"
 
 [[projects]]
+  digest = "1:ca9a07ba5be7999dbec4eb92bab484a634af0559fb417bf3b3067651ef220119"
+  name = "github.com/dapr/go-sdk"
+  packages = [
+    "dapr/proto/common/v1",
+    "dapr/proto/runtime/v1",
+  ]
+  pruneopts = "UT"
+  revision = "e6f82b2cabe007d28d757503552916dfc5e908a7"
+  version = "v0.10.0"
+
+[[projects]]
   digest = "1:ffe9824d294da03b391f44e1ae8281281b4afc1bdaa9588c9097785e3af10cec"
   name = "github.com/davecgh/go-spew"
   packages = ["spew"]
@@ -58,7 +69,7 @@
 
 [[projects]]
   branch = "master"
-  digest = "1:21a338ab8d56ed1117b46cb9b9021d15d6425650af9da750cddb44e4475e9218"
+  digest = "1:86e4f91dfa0d08de263bca6f2a15d12c99efe033e3b18427ef2068f98520fba9"
   name = "github.com/golang/protobuf"
   packages = [
     "descriptor",
@@ -71,6 +82,7 @@
     "ptypes",
     "ptypes/any",
     "ptypes/duration",
+    "ptypes/empty",
     "ptypes/struct",
     "ptypes/timestamp",
     "ptypes/wrappers",
@@ -330,6 +342,41 @@
   version = "v1.27.1"
 
 [[projects]]
+  digest = "1:cccb3a18e62abaccd19c309fc01a69da2509719f5a453cb2e66969f670503245"
+  name = "google.golang.org/protobuf"
+  packages = [
+    "encoding/prototext",
+    "encoding/protowire",
+    "internal/descfmt",
+    "internal/descopts",
+    "internal/detrand",
+    "internal/encoding/defval",
+    "internal/encoding/messageset",
+    "internal/encoding/tag",
+    "internal/encoding/text",
+    "internal/errors",
+    "internal/fieldsort",
+    "internal/filedesc",
+    "internal/filetype",
+    "internal/flags",
+    "internal/genid",
+    "internal/impl",
+    "internal/mapsort",
+    "internal/pragma",
+    "internal/set",
+    "internal/strs",
+    "internal/version",
+    "proto",
+    "reflect/protoreflect",
+    "reflect/protoregistry",
+    "runtime/protoiface",
+    "runtime/protoimpl",
+  ]
+  pruneopts = "UT"
+  revision = "3f7a61f89bb6813f89d981d1870ed68da0b3c3f1"
+  version = "v1.25.0"
+
+[[projects]]
   digest = "1:55b110c99c5fdc4f14930747326acce56b52cfce60b24b1c03ef686ac0e46bb1"
   name = "gopkg.in/yaml.v2"
   packages = ["."]
@@ -343,6 +390,7 @@
   input-imports = [
     "contrib.go.opencensus.io/exporter/ocagent",
     "github.com/DATA-DOG/go-sqlmock",
+    "github.com/dapr/go-sdk/dapr/proto/runtime/v1",
     "github.com/dgrijalva/jwt-go",
     "github.com/golang/protobuf/jsonpb",
     "github.com/golang/protobuf/proto",
@@ -365,6 +413,7 @@
     "github.com/stretchr/testify/assert",
     "go.opencensus.io/plugin/ocgrpc",
     "go.opencensus.io/plugin/ochttp",
+    "go.opencensus.io/plugin/ochttp/propagation/b3",
     "go.opencensus.io/trace",
     "go.opencensus.io/trace/propagation",
     "golang.org/x/net/context",
