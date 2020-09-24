@@ -4,14 +4,16 @@ import (
 	"bytes"
 	"context"
 	"encoding/gob"
+	"errors"
 	"fmt"
-	"github.com/infobloxopen/protoc-gen-gorm/types"
 	"reflect"
 	"strings"
 
 	dapr "github.com/dapr/go-sdk/dapr/proto/runtime/v1"
 	"github.com/sirupsen/logrus"
 	"google.golang.org/grpc"
+
+	"github.com/infobloxopen/protoc-gen-gorm/types"
 )
 
 type Message_info struct {
@@ -27,14 +29,28 @@ type Encoded_data struct {
 	EncodedData interface{}
 }
 
+var (
+	errorWrongDaprClient = errors.New("Dapr client is not initialized")
+)
+
+func publish(pubsubname, topic string, dat []byte, client dapr.DaprClient) error {
+	if client == nil {
+		return errorWrongDaprClient
+	}
+
+	_, err := client.PublishEvent(context.Background(), &dapr.PublishEventRequest{
+		PubsubName: pubsubname,
+		Topic:      topic,
+		Data:       dat,
+	})
+	return err
+}
+
 func UnaryServerInterceptor(applicationId, pubsubname, topic string, handleOnlySuccessful bool, referensceList interface{}, client dapr.DaprClient) grpc.UnaryServerInterceptor {
 	// 1. get the schema version from file
 	if client == nil {
 		logrus.Fatal("Dapr client is invalid")
 	}
-	//pflag.String("atlas.feature.flag.address", "0.0.0.0", "address of the feature flag service")
-	//pflag.String("atlas.feature.flag.port", "9090", "port of the feature flag service")
-	//pflag.Duration("muzzling.value.ttl", time.Minute*1, "TTL of cached value retrieved from the feature flag service")
 
 	return func(ctx context.Context, req interface{}, info *grpc.UnaryServerInfo, handler grpc.UnaryHandler) (interface{}, error) {
 		handlerResponse, handlerError := handler(ctx, req)

@@ -128,6 +128,14 @@
   version = "v1.13.0"
 
 [[projects]]
+  digest = "1:c5b7f187c4e4782e240d564daa3f7ee1961ba83bbc1ec29476358f731021d0f4"
+  name = "github.com/infobloxopen/protoc-gen-gorm"
+  packages = ["types"]
+  pruneopts = "UT"
+  revision = "19389374ff9b614994c6dc746a61a61c596fbdca"
+  version = "v0.20.0"
+
+[[projects]]
   digest = "1:e40b74b04fa9a70ff39869139c9fd15ec9a9eefde3f51ef3b65405a60ce30e0e"
   name = "github.com/jinzhu/gorm"
   packages = [
@@ -405,6 +413,7 @@
     "github.com/grpc-ecosystem/grpc-gateway/protoc-gen-swagger/options",
     "github.com/grpc-ecosystem/grpc-gateway/runtime",
     "github.com/grpc-ecosystem/grpc-gateway/utilities",
+    "github.com/infobloxopen/protoc-gen-gorm/types",
     "github.com/jinzhu/gorm",
     "github.com/jinzhu/gorm/dialects/postgres",
     "github.com/jinzhu/inflection",

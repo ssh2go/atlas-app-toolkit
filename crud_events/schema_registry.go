@@ -2,8 +2,10 @@ package crud_events
 
 import (
 	"bytes"
+	"encoding/gob"
 	"encoding/json"
 	"fmt"
+	"github.com/sirupsen/logrus"
 	"io/ioutil"
 	"net/http"
 	"os"
@@ -27,9 +29,9 @@ type MessageDetails struct {
 }
 
 type MessageDescription struct {
-	MessageId            string
-	MessageReference     string
-	Version              int32
+	MessageId        string
+	MessageReference string
+	Version          int32
 }
 
 type IMessages interface {
@@ -38,16 +40,16 @@ type IMessages interface {
 	GetMessageDescription(string) (MessageDescription, error)
 }
 
-func (im* RegisteredMessages) Init() interface{} {
+func (im *RegisteredMessages) Init() interface{} {
 	im.Data = map[string]MessageDescription{}
 	return im
 }
 
-func (im* RegisteredMessages) ParseResponseToDescription(key string, value interface{}) error {
+func (im *RegisteredMessages) ParseResponseToDescription(key string, value interface{}) error {
 	return fmt.Errorf("Method is not implemented")
 }
 
-func (im* RegisteredMessages) GetMessageDescription (key string) (MessageDescription, error) {
+func (im *RegisteredMessages) GetMessageDescription(key string) (MessageDescription, error) {
 	im.RLock()
 	defer im.RUnlock()
 	messageDescription, ok := im.Data[key]
@@ -67,8 +69,6 @@ type Registry struct {
 
 type SchemaRegistry interface {
 	RegisterMessage(string, string, string) error
-	SendProtobuf(string, string) error
-	SendData(string, interface{}) error
 }
 
 // should only create valid Registry structure with filled schema registry address and dapr-related fields
@@ -124,4 +124,19 @@ func (r *Registry) RegisterMessage(applicationId, packageName, messageName, mess
 	}
 
 	return nil, nil
+}
+
+// Just an example of how incoming protobuf might be processed (fetching from schema.registry to consumer)
+func MessageJSONReader(body []byte) error {
+	receivedInfo := &Message_info{}
+	b := bytes.Buffer{}
+	b.Write(body)
+	d := gob.NewDecoder(&b)
+	err := d.Decode(&receivedInfo)
+	if err != nil {
+		return err
+	}
+
+	logrus.Debugf("Received message %q should be used in application %s, package %s. Encoded file is %#v", receivedInfo.MessageName, receivedInfo.ApplicationId, receivedInfo.PackageName, receivedInfo.EncodedFile)
+	return nil
 }
